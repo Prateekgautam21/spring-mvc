@@ -9,8 +9,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
+// to store model of login as session attribute we use sessionattribute
+@SessionAttributes("loginData")
 public class LoginController {
 
     @Autowired
@@ -24,7 +27,7 @@ public class LoginController {
             throw new ApplicationException("User not found.");
         }
 
-        return "search";
+        return "forward:/userprofile";
     }
 
     // exception handler for login controller when ApplicationException occurs.
