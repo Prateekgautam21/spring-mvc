@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpSession;
+
 @Controller
 // to store model of login as session attribute we use sessionattribute
 @SessionAttributes("loginData")
@@ -20,7 +22,10 @@ public class LoginController {
     private UserRepository userRepository;
 
     @PostMapping("/login")
-    public String login(@ModelAttribute("loginData")Login login){
+    public String login(@ModelAttribute("loginData")Login login, HttpSession session){
+
+        // full session management with session object like session.setAttribute() etc and a lot more.
+
         User user = this.userRepository.getUserByName(login.getUsername());
 
         if(user==null){
