@@ -8,9 +8,12 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.format.FormatterRegistry;
+import org.springframework.web.servlet.ThemeResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.theme.CookieThemeResolver;
+import org.springframework.web.servlet.theme.ThemeChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.ResourceBundleViewResolver;
@@ -77,5 +80,20 @@ public class ApplicationConfiguration extends WebMvcConfigurationSupport {
     @Override
     protected void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new LoggingInterceptor()).addPathPatterns("/*");
+
+        // theme resolver interceptor
+        // the themeChangeInterceptor will accept a request parameter with name theme
+        // so you can access the themes like localhost:8080/home?theme=clien-theme1(or2)
+        registry.addInterceptor(new ThemeChangeInterceptor());
+    }
+
+
+    // themeresolver
+    @Bean
+    public ThemeResolver themeResolver(){
+        CookieThemeResolver cookieThemeResolver = new CookieThemeResolver();
+        cookieThemeResolver.setCookieName("theme");
+        cookieThemeResolver.setDefaultThemeName("client-theme1");
+        return cookieThemeResolver;
     }
 }
