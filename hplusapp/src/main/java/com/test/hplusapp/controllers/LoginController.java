@@ -24,7 +24,7 @@ public class LoginController {
     @PostMapping("/login")
     public String login(@ModelAttribute("loginData")Login login, HttpSession session){
 
-        // full session management with session object like session.setAttribute() etc and a lot more.
+        // full session management can be done with session object like session.setAttribute() etc and a lot more.
 
         User user = this.userRepository.getUserByName(login.getUsername());
 
@@ -32,6 +32,8 @@ public class LoginController {
             throw new ApplicationException("User not found.");
         }
 
+        // forwarding is handling the control to another resource within context or application.
+        // redirecting is moving out of application.
         return "forward:/userprofile";
     }
 
